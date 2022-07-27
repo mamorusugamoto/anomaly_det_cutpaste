@@ -48,12 +48,6 @@ def eval_one_image(filepath, modelname, defect_type, device="cpu", save_plots=Fa
                                                   std=[0.229, 0.224, 0.225]))
     img = Image.open(filepath)
     img = img.resize((size,size)).convert("RGB")
-    # print("IMAGE____")
-    # print(img)
-
-    # _, width, height = img.size
-    # print(_, width, height)
-
     img = test_transform(img)
     # create model
     if model is None:
@@ -71,10 +65,6 @@ def eval_one_image(filepath, modelname, defect_type, device="cpu", save_plots=Fa
     labels = []
     embeds = []
     with torch.no_grad():
-        # for x, label in dataloader_test:
-        #     embed, logit = model(x.to(device))
-
-        # print(img.size())
         img = torch.reshape(img, (1, 3, size, size)) 
 
         embed, logit = model(img.to(device))
@@ -82,25 +72,23 @@ def eval_one_image(filepath, modelname, defect_type, device="cpu", save_plots=Fa
         embeds.append(embed.cpu())
     embeds = torch.cat(embeds)
     if train_embed is None:
-        print("train_embed is None train_embed is Nonetrain_embed is Nonetrain_embed is Nonetrain_embed is Nonetrain_embed is Nonetrain_embed is None")
+        # print("train_embed is None train_embed is Nonetrain_embed is Nonetrain_embed is Nonetrain_embed is Nonetrain_embed is Nonetrain_embed is None")
         train_embed = get_train_embeds(model, size, defect_type, test_transform, device)
 
     # norm embeds
     embeds = torch.nn.functional.normalize(embeds, p=2, dim=1)
     train_embed = torch.nn.functional.normalize(train_embed, p=2, dim=1)
     
-    print(f"using density estimation {density.__class__.__name__}")
+    # print(f"using density estimation {density.__class__.__name__}")
     density.fit(train_embed)
     distance = density.predict(embeds)
-    print("DISTANCE")
-    print(distance)
     # THRESHOLD is alculated by G-means 
     # https://towardsdatascience.com/optimal-threshold-for-imbalanced-classification-5884e870c293
     THRESHOLD = 23.625200271606445     
     if distance > THRESHOLD:
-        prediction = "ANORMALY"
+        prediction = "異常"
     else:
-        prediction = "NORMAL"
+        prediction = "正常"
     return prediction, distance                          
     
 
@@ -183,7 +171,11 @@ if __name__ == '__main__':
         # obj["defect_type"].append(data_type)
         # obj["roc_auc"].append(roc_auc)
         prediction, distance = eval_one_image(filepath, model_name, data_type, save_plots=args.save_plots, device=device, head_layer=args.head_layer, density=density())
-        print(prediction, distance)
+        print(prediction)
+        print("異常度")
+        print(distance)
+        print("しきい値")
+        print(THRESHOLD)
     # # save pandas dataframe
     # eval_dir = Path("eval") / args.model_dir
     # eval_dir.mkdir(parents=True, exist_ok=True)
