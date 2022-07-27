@@ -1,15 +1,23 @@
 # 異常検知モデルCutPasteをmetal_nut画像を1画像ずつ判定するように改良(eval_one_img.py)
+(参考)
+
 [CutPaste: Self-Supervised Learning for Anomaly Detection and Localization](https://arxiv.org/abs/2104.04015)
+
 [CutPaste: pythonコード](https://github.com/Runinho/pytorch-cutpaste)
 
 ## 実行環境はgoogle colaboratory
 google colaboratory上でanomaly_detection_cutpaste.ipynbを開く
+
 以下の２つのファイルを別途ダウンロードして、
+
 google colaboratory上にアップロードする
+
 １、学習済みファイル model-metal_nut-2022-07-09_13_26_16.tch
+
 ２、推論時に使う正常な画像 good.zip
 
 ## 推論したいmetal_nut画像をgoogle colaboratory上にアップする
+
 --filepath (画像パス)で推論したいmetal_nut画像のパスを指定する
 
 !python eval_one_img.py --filepath Data/002.png --model_dir models  --type metal_nut  --head_layer 2
