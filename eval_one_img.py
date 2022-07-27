@@ -174,8 +174,6 @@ if __name__ == '__main__':
         print(prediction)
         print("異常度")
         print(distance)
-        print("しきい値")
-        print(THRESHOLD)
     # # save pandas dataframe
     # eval_dir = Path("eval") / args.model_dir
     # eval_dir.mkdir(parents=True, exist_ok=True)
