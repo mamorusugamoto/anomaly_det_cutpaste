@@ -22,8 +22,6 @@ google colaboratory上にアップロードする
 
 !python eval_one_img.py --filepath Data/002.png --model_dir models  --type metal_nut  --head_layer 2
 
-## 推論コマンド
-
 
 ## 以下は[CutPaste: pythonコード](https://github.com/Runinho/pytorch-cutpaste)でのsetup手順
 
