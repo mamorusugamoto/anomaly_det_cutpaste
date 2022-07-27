@@ -171,9 +171,8 @@ if __name__ == '__main__':
         # obj["defect_type"].append(data_type)
         # obj["roc_auc"].append(roc_auc)
         prediction, distance = eval_one_image(filepath, model_name, data_type, save_plots=args.save_plots, device=device, head_layer=args.head_layer, density=density())
-        print(prediction)
-        print("異常度")
-        print(distance)
+        print("判断　：", prediction)
+        print("異常度：", distance)
     # # save pandas dataframe
     # eval_dir = Path("eval") / args.model_dir
     # eval_dir.mkdir(parents=True, exist_ok=True)
